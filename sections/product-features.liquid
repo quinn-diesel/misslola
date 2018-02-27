@@ -1,0 +1,226 @@
+{% comment %}  
+Desktop layout
+{% endcomment %}
+<div data-section-id="{{ section.id }}" data-section-type="product-features">
+<div class="desktop wrapper">
+  {% comment %}  
+  Product feature 1
+  {% endcomment %}
+  {% for block in section.blocks %}
+    {% if forloop.index == 1 %}
+  <div class="grid--full feature-1-wrapper" {{ block.shopify_attributes }}>
+    <div class="grid__item large--two-fifths feature-1-images">
+      <div class = "feature-1-image-1">
+        {% if block.settings.image_link_1 != blank %}<a href = "{{block.settings.image_link_1}}">{% endif %}
+        {% if block.settings.image_1 != blank %}
+            {{ block.settings.image_1 | img_url: '1024x' | img_tag: block.settings.image_1.alt }}
+        {% else %}
+          {{ 'image' | placeholder_svg_tag: "placeholder-svg-filled" }}
+        {% endif %}
+        {% if block.settings.image_link_1 != blank %}</a>{% endif %}
+    </div>
+      {% if block.settings.image_2 != blank %}
+        <div class="feature-1-image-2">
+            {% if block.settings.image_link_2 != blank %}<a href = "{{block.settings.image_link_2}}">{% endif %}
+            {{ block.settings.image_2 | img_url: '1024x' | img_tag: block.settings.image_2.alt }}
+            {% if block.settings.image_link_2 != blank %}</a>{% endif %}
+        </div>
+      {% endif %}
+    </div>
+    <div class="feature-1-text">
+      <h2>{{ block.settings.heading | escape }}</h2>
+      <hr>
+      <p>{{ block.settings.description }}</p>
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
+
+  {% comment %}  
+  Product feature 2
+  {% endcomment %}
+    {% for block in section.blocks %}
+    {% if forloop.index == 2 %}
+  <div class="grid--full feature-2-wrapper" {{ block.shopify_attributes }}>
+    <div class = "grid__item large--two-fifths feature-2-images">
+        <div class="feature-2-image-1 {% if block.settings.image_1 == blank %}empty-pf{% endif %}">
+        {% if block.settings.image_link_1 != blank %}<a href = "{{block.settings.image_link_1}}">{% endif %}
+        {% if block.settings.image_1 != blank %}
+            {{ block.settings.image_1 | img_url: '1024x' | img_tag: block.settings.image_1.alt }}
+        {% else %}
+        {{ 'image' | placeholder_svg_tag: "placeholder-svg-filled" }}
+        {% endif %}
+          {% if block.settings.image_link_1 != blank %}</a>{% endif %}
+
+        </div>
+        {% if block.settings.image_2 != blank  %}
+          <div class="feature-2-image-2">
+            {% if block.settings.image_link_2 != blank %}<a href = "{{ block.settings.image_link_2 }}">{% endif %}
+
+            {{ block.settings.image_2 | img_url: '1024x' | img_tag: block.settings.image_2.alt }}
+            {% if block.settings.image_link_2 != blank %}</a>{% endif %}
+          </div>
+        {% endif %}
+      </div>
+    <div class="feature-2-text">
+      <h2>{{ block.settings.heading | escape }}</h2>
+      <hr>
+      <p>{{ block.settings.description }}</p>
+    </div>
+  </div>
+  {% endif %}
+  {% endfor %}
+</div>
+
+{% comment %}  
+Mobile layout - it's more lightweight than JS magic
+{% endcomment %}
+<div class = "wrapper mobile">
+  {% for block in section.blocks %}
+    {% if forloop.index == 1 %}
+    <div class="grid--full feature-1-wrapper">
+      <div class="feature-1-images">
+      
+        <div class = "feature-1-image-1">
+          {% if block.settings.image_link_1 != blank %}<a href = "{{block.settings.image_link_1}}">{% endif %}
+          {% if block.settings.image_1 != blank %}
+            {{ block.settings.image_1 | img_url: '1024x' | img_tag: block.settings.image_1.alt }}
+          {% else %}
+            <div>
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg-filled' }}
+            </div>
+          {% endif %}
+         {% if block.settings.image_link_1 != blank %}</a>{% endif %}
+
+        </div>
+      </div>
+      <div class="feature-1-text">
+        <h2>{{ block.settings.heading | escape }}</h2>
+        <hr>
+        <p>{{ block.settings.description }}</p>
+      </div>
+    </div>
+      {% endif %}
+    {% endfor %}
+
+    <div class = "second-images-wrapper">
+     {% for block in section.blocks %}
+        {% if forloop.index == 1 %}
+          {% assign class = "feature-1-image-2" %}
+        {% else %}
+          {% assign class = "feature-2-image-2" %}
+        {% endif %}
+
+       {% for block in section.blocks %}
+          {% if forloop.index == 1 %}
+            {% if block.settings.image_2 == blank %}
+              {% assign noSibling = "no-sibling" %}
+            {% endif %}
+          {% endif %}
+          
+          {% if forloop.index == 2 %}
+          {% if block.settings.image_2 == blank %}
+              {% assign noSibling = "no-sibling" %}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+
+        {% if block.settings.image_2 != blank %}
+      
+            <div class="{{ class }} {{ noSibling }}">
+                      {% if block.settings.image_link_2 != blank %}<a href = "{{block.settings.image_link_2}}">{% endif %}
+
+            {{ block.settings.image_2 | img_url: '1024x' | img_tag: block.settings.image_2.alt }}
+                      {% if block.settings.image_link_2 != blank %}</a>{% endif %}
+
+
+            </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+    {% for block in section.blocks %}
+      {% if forloop.index == 2 %}
+        <div class="grid--full feature-2-wrapper">
+          <div class="feature-2-text">
+            <h2>{{ block.settings.heading | escape }}</h2>
+            <hr>
+            <p>{{ block.settings.description }}</p>
+          </div>
+          <div class = "feature-2-images">
+              <div class="feature-2-image-1">
+               {% if block.settings.image_link_1 != blank %}<a href = "{{block.settings.image_link_1}}">{% endif %}
+
+                {% if block.settings.image_1 != blank %}
+                  {{ block.settings.image_1 | img_url: '1024x' | img_tag: block.settings_1.image.alt }}
+                {% else %}
+                  {{ 'image' | placeholder_svg_tag: "placeholder-svg-filled" }}
+                {% endif %}     
+                {% if block.settings.image_link_1 != blank %}</a>{% endif %}
+
+              </div>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+</div> 
+</div>
+
+{% schema %}
+ {
+  "name": "Product features",
+  "max_blocks": 2,
+  "class": "product-features",
+  "blocks": [
+    {
+      "type": "text",
+      "name": "Product feature",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "heading",
+          "label": "Heading",
+          "default": "This is a heading for a Product feature block."
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description",
+          "default": "<p>Curabitur blandit tempus porttitor. Etiam porta sem malesuada magna mollis euismod. Donec id elit non mi porta gravida at eget metus.</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_1",
+          "label": "Image"
+        },
+    {
+    "type": "url",
+        "id": "image_link_1",
+         "label": "Image link"
+    },
+        {
+          "type": "image_picker",
+          "id": "image_2",
+          "label": "Image"
+        },
+    {
+    "type": "url",
+        "id": "image_link_2",
+         "label": "Image link"
+    }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product features",
+      "category": "Product",
+      "blocks": [
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

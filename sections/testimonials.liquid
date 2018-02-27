@@ -1,0 +1,122 @@
+<!-- /sections/testimonials.liquid -->
+
+{% comment %}
+Establishes the layout
+{% endcomment %}
+
+{% assign total_blocks = section.blocks.size %}
+
+{% if total_blocks == 1 %}
+{% assign testimonial_width = 'grid__item push--large--one-quarter large--one-half medium-down--one-whole' %}
+{% endif %}
+
+{% if total_blocks == 2 %}
+{% assign testimonial_width = 'grid__item large--one-half medium-down--one-whole' %}
+{% endif %}
+
+{% if total_blocks == 3 %}
+{% assign testimonial_width = 'grid__item large--one-third medium-down--one-whole' %}
+{% endif %}
+
+<div data-section-id="{{ section.id }}" data-section-type="testimonials" class = "testimonials-section" id="testimonials">
+  {% if section.settings.title != blank %}
+  <div>
+    <span class="vertical-spacer"></span>
+    <h1 class="text-center testimonials-header">{{ section.settings.title | escape }}</h1>
+    <span class="vertical-spacer"></span>
+  </div>
+  {% endif %}
+  <div class="grid--full wrapper testimonials-wrapper">
+
+      {% for block in section.blocks %}
+      <div class="{{testimonial_width}}">
+        <table class = "testimonials-table">
+          <div class = "grid--full">
+            <div class = "grid__item">
+              <div class="testimonial-text text-center">{{ block.settings.testimonial_text }}</div>
+              <div class="user-profile">
+                <tr>
+                  <td class = "testimonial-cell">
+                    <div class="user-image">
+                      {% if block.settings.image != blank %}
+                      {{ block.settings.image | img_url: '250x' | img_tag: block.settings.image.alt }}
+                      {% endif %}
+                    </div>
+                    <div class = "user-name">{{ block.settings.customer_name | escape }}</div>
+                  </td>
+                </tr>
+              </div>
+            </div>
+          </div>
+        </table>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+{% schema %}
+{
+  "name": "Testimonials",
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Testimonials"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "testimonial",
+      "name": "Testimonial",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "testimonial_text",
+          "label": "Testimonial"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Customer photo"
+        },
+        {
+          "type": "text",
+          "id": "customer_name",
+          "label": "Customer name"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Testimonials",
+      "category": "Text",
+      "blocks": [
+        {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum.</p>",
+            "customer_name":"Sherlock Holmes"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum.</p>",
+            "customer_name":"John Watson"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_text": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas faucibus mollis interdum.</p>",
+            "customer_name":"Mycroft Holmes"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

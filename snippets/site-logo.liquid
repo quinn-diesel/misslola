@@ -1,0 +1,17 @@
+<!-- /snippets/site-logo.liquid -->
+
+<div class="grid__item large--one-third medium-down--one-half">
+  <h1 class="site-header__logo large--left" itemscope itemtype="http://schema.org/Organization">
+    
+    {% if section.settings.logo != blank %}
+      <a href="/" itemprop="url" class="site-header__logo-link">
+        <img src="{{ section.settings.logo | img_url: '300x' }}" alt="{{ shop.name }}" itemprop="logo">
+      </a>
+    {% endif %}
+    
+    {% if section.settings.show_shop_name %}
+      <a class = "logo" href="/" itemprop="url">{{ shop.name }}</a>
+    {% endif %}
+    
+  </h1>
+</div>

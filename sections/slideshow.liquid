@@ -1,0 +1,333 @@
+<!-- /sections/slideshow.liquid -->
+{% if section.settings.enable_slider_margins %}
+  {% assign slider_margins = "slider-margins" %}
+{% endif %}
+
+<div data-section-id="{{ section.id }}" data-section-type="slider" data-slides-count="{{ section.blocks.size }}">
+<div class="slider">
+  {% if section.blocks.size > 0 %}
+    <div class="slide-block {{ slider_margins }}">
+      <div class="owl-carousel">
+        {% for block in section.blocks %}
+        
+        {% if block.settings.slide_btn_link != blank %}
+          {% assign btn_link =  block.settings.slide_btn_link  %}
+        {% else %}
+          {% assign btn_link = "#!" %}
+        {% endif %}
+
+        {% if block.settings.slide_btn_text != blank and block.settings.video_btn_text != blank %}
+        {% assign call_to_action_offset = 'call-to-action-offset' %}
+        {% endif %}
+
+        <div class="item {{ block.settings.hero_text_alignment }}" {{ block.shopify_attributes }} data-slide-position="{{ forloop.index }}">
+        {% if section.settings.slider_text_position == 'slider-text-block' %}
+         <div class = "overlay {{ block.settings.hero_overlay }}" style = "background-color:{{ block.settings.hero_overlay_color }} !important;"></div>
+        {% endif %}
+          <div class="{{ section.settings.slider_text_position }}">
+            {% if block.settings.slide_heading != blank %}
+            <h1 class="slide-title main-heading {{ section.settings.text_color }}">{{ block.settings.slide_heading | escape }}</h1>
+            {% endif %}
+            {% if block.settings.slide_subheading != blank %}
+            <h2 class="slider-caption main-subheading {{ section.settings.text_color }}">{{ block.settings.slide_subheading | escape }}</h2>
+            {% endif %}
+              <div class="slider-cta">
+              {% if block.settings.slide_btn_text != blank %}
+                <a class="btn call-to-action slider-btn {{ call_to_action_offset }}" href="{{ btn_link }}">{{ block.settings.slide_btn_text | escape }}</a>
+              {% endif %}
+              {% if block.settings.video_btn_text != blank %}
+                <a class="video-text-link secondary-call-to-action {{ section.settings.text_color }}" href="{{ block.settings.video_btn_link }}">
+                <i class="custom-icon-play-button call-to-action-circle {{ section.settings.text_color }}"></i>
+                <span>{{ block.settings.video_btn_text }}</span>
+                </a>
+              {% endif %}
+              </div>
+          </div>
+          {% unless block.settings.image == blank %}
+          <div class="slides {{ section.settings.slide_height }} {{ block.settings.bg_position }}" style="background-image: url('{{ block.settings.image | img_url: '2048x'}}');">
+          </div>
+          {% else %}
+           <div class="slides placeholder-bg {{ section.settings.slide_height }}" style="background-image: url(' {% include 'placeholder_svg_uri', placeholder : 'lifestyle-1' %} ');">
+          </div>
+          {% endunless %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+</div>
+</div>
+
+{% schema %}
+{
+  "name": "Slider",
+  "max_blocks": 5,
+  "class": "slideshow",
+  "settings": [
+    {
+      "type": "header",
+      "content": "General Setting"
+    },
+    {
+      "type": "select",
+      "id": "slide_height",
+      "label": "Slide height",
+      "default": "one-hundred-height-hero",
+      "options": [
+        {
+          "value": "one-hundred-height-hero",
+          "label": "Full screen height"
+        },
+        {
+          "value": "seventy-five-height-hero ",
+          "label": "Tall"
+        },
+        {
+          "value": "sixty-six-height-hero",
+          "label": "Medium"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "slider_text_position",
+      "label": "Text position",
+      "default": "slider-text-block",
+      "options": [
+        {
+          "value": "slider-text-block",
+          "label": "Inside"
+        },
+        {
+          "value": "slider-text-block-outside",
+          "label": "Outside"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "text-light",
+      "options": [
+        {
+          "value": "text-light",
+          "label": "Light"
+        },
+        {
+          "value": "text-dark",
+          "label": "Dark"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_slider_margins",
+      "label": "Show margins",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Slide",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "2048px width recommended"
+        },
+        {
+          "type": "select",
+          "id": "bg_position",
+          "label": "Image position",
+          "default": "bg-pos-center-center",
+          "options": [
+            {
+              "value": "bg-pos-top-center",
+              "label": "Top"
+            },
+            {
+              "value": "bg-pos-right-center",
+              "label": "Right"
+            },
+            {
+              "value": "bg-pos-center-center",
+              "label": "Center"
+            },
+            {
+              "value": "bg-pos-left-center",
+              "label": "Left"
+            },
+            {
+              "value": "bg-pos-bottom-center",
+              "label": "Bottom"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "hero_overlay",
+          "label": "Slide overlay opacity",
+          "default":"overlay-50",
+          "options": [
+            {
+              "value": "overlay-0",
+              "label": "0%"
+            },
+            {
+              "value": "overlay-5",
+              "label": "5%"
+            },
+            {
+              "value": "overlay-10",
+              "label": "10%"
+            },
+            {
+              "value": "overlay-15",
+              "label": "15%"
+            },
+            {
+              "value": "overlay-20",
+              "label": "20%"
+            },
+            {
+              "value": "overlay-25",
+              "label": "25%"
+            },
+            {
+              "value": "overlay-30",
+              "label": "30%"
+            },
+            {
+              "value": "overlay-35",
+              "label": "35%"
+            },
+            {
+              "value": "overlay-40",
+              "label": "40%"
+            },
+            {
+              "value": "overlay-45",
+              "label": "45%"
+            },
+            {
+              "value": "overlay-50",
+              "label": "50%"
+            },
+            {
+              "value": "overlay-55",
+              "label": "55%"
+            },
+            {
+              "value": "overlay-60",
+              "label": "60%"
+            },
+            {
+              "value": "overlay-65",
+              "label": "65%"
+            },
+            {
+              "value": "overlay-70",
+              "label": "70%"
+            },
+            {
+              "value": "overlay-75",
+              "label": "75%"
+            },
+            {
+              "value": "overlay-80",
+              "label": "80%"
+            },
+            {
+              "value": "overlay-85",
+              "label": "85%"
+            },
+            {
+              "value": "overlay-90",
+              "label": "90%"
+            }
+          ]
+        },
+        {
+          "type": "color",
+          "id": "hero_overlay_color",
+          "label": "Overlay color",
+          "default": "#000"
+        },
+        {
+          "type": "text",
+          "id": "slide_heading",
+          "label": "Heading",
+          "default": "Welcome to Palo Alto"
+        },
+        {
+          "type": "text",
+          "id": "slide_subheading",
+          "label": "Subheading",
+          "default": "Cras justo odio, dapibus ac facilisis in, egestas eget quam."
+        },
+        {
+          "type": "text",
+          "id": "slide_btn_text",
+          "label": "Button Text",
+          "default": "Welcome"
+        },
+        {
+          "type": "url",
+          "id": "slide_btn_link",
+          "label": "Button URL"
+        },
+        {
+          "type": "text",
+          "id": "video_btn_text",
+          "label": "Video button text",
+          "default": "Watch the Video"
+        },
+        {
+          "type": "video_url",
+          "id": "video_btn_link",
+          "label": "Video URL",
+          "accept": [
+            "youtube",
+            "vimeo"
+          ],
+          "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc"
+        },
+        {
+          "type": "select",
+          "id": "hero_text_alignment",
+          "label": "Text alignment",
+          "default": "text-center",
+          "options": [
+            {
+              "value": "text-left",
+              "label": "Left"
+            },
+            {
+              "value": "text-center",
+              "label": "Center"
+            },
+            {
+              "value": "text-right",
+              "label": "Right"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Slider",
+      "category": "Image",
+      "blocks": [
+        {
+          "type": "image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

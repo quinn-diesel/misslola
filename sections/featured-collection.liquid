@@ -1,0 +1,52 @@
+<!-- /sections/featured-collection.liquid -->
+
+{% assign collection = collections[section.settings.featured_collection] %}
+{% assign productsNumber =  50  %}
+
+{% for product in collection.products limit: productsNumber %}
+{% else %}
+{% unless emptyState %}
+{% assign emptyState = true %}
+{% endunless %}
+{% endfor %}
+
+<div class = "featured-collection-section {% if emptyState %}empty-featured-collection{% endif %}" id="featured-collection" data-section-id="{{ section.id }}" data-section-type="featured-collection">
+  {% if section.settings.show_title and collection.handle != 'all' and emptyState != true %}
+    <h2 class = "text-center">{{ collection.title | escape }}</h2>
+    <hr>
+  {% endif %}
+  <div class="grid--full featured-collection wrapper">
+    {% for product in collection.products limit:productsNumber %}
+        {% include 'product-grid-item' %}
+    {% else %}
+    {% unless emptyState %}
+      {{ 'theme-onboarding.css' | global_asset_url | stylesheet_tag }}
+      {% endunless %}
+      {% include 'onboarding-empty-collection' %}
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show collection title"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}

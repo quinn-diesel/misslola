@@ -1,0 +1,13 @@
+:api_key: 8a91f325de49da9b8bbfe31f64c0ee16
+:ignore_files:
+- todo
+- config/settings_data.json
+development:
+  password: f6932ead7a9bef33346ac0dedd5faba4
+  theme_id: "31146573867"
+  store: https://misslola.myshopify.com
+production:
+  password: f6932ead7a9bef33346ac0dedd5faba4
+  theme_id: "177342605"
+  store: https://misslola.myshopify.com
+  timeout: 60s

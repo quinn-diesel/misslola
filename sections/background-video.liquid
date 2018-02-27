@@ -1,0 +1,335 @@
+<!-- /sections/background-video.liquid -->
+
+{% if section.settings.enable_video_margins %}
+{% assign video_margins = "slider-margins" %}
+{% endif %}
+
+{% if section.settings.btn_link != blank %}
+  {% assign btn_link =  section.settings.btn_link  %}
+{% else %}
+  {% assign btn_link = "#!" %}
+{% endif %}
+
+{% assign videoKey = section.settings.hero_video_link.id %}
+{% assign section_height = section.settings.video_height | plus: 0 %}
+{% assign section_height_mobile = section.settings.video_height_mobile| plus: 0 %}
+
+{% if section.settings.enable_autoplay %}
+{% assign autoplay_var = 1 %}
+{% else %}
+{% assign autoplay_var = 0 %}
+{% endif %}
+
+{% if section.settings.text_alignment %}
+{% assign text_alignment = "text-center" %}
+{% else %}
+{% assign text_alignment = "text-left" %}
+{% endif %}
+
+{% assign text_position = section.settings.text_position %}
+
+
+<style>
+.video--{{section.id}} {
+    {% unless section.settings.image == blank %}
+        background: url('{{ section.settings.image | img_url:'2048x' }}');
+    {% else %}
+        background: url(" {% include 'placeholder_svg_uri', placeholder : 'lifestyle-1' %} ");
+    {% endunless %}
+}
+
+@media screen and (max-width: 991px) {
+  .video--{{ section.id }} {
+    {% unless section.settings.image == blank %}
+          background: url('{{ section.settings.image | img_url:'1024x' }}'); }
+    {% else %}
+        background: url(" {% include 'placeholder_svg_uri', placeholder : 'lifestyle-1' %} ");
+    {% endunless %}
+  }
+}
+</style>
+
+
+<div class = data-section-id="{{ section.id }}" data-section-type="featured-video">
+
+    <div class ="video-wrapper">
+
+      <div class = "{{ text_alignment }} {{ text_position }} no-play-button">
+        <!-- Text -->
+        <div class="video-text-wrapper wrapper">
+            {% if section.settings.main_heading != blank %}
+            <h1 class="main-heading {{ section.settings.text_color }}">{{ section.settings.main_heading | escape }}</h1>
+            {% endif %}
+            {% if section.settings.main_subheading != blank %}
+            <h2 class="main-subheading {{ section.settings.text_color }}">{{ section.settings.main_subheading | escape }}</h2>
+            {% endif %}
+
+            <!-- Button -->
+            {% if section.settings.btn_text != blank %}
+            <div class = "buttons-wrapper">
+              {% if section.settings.btn_text != blank %}
+              <a class="btn call-to-action" id="primary-cta" href="{{ btn_link }}">{{ section.settings.btn_text }}</a>
+              {% endif %}
+            </div>
+            {% endif %}
+              <a class="play-button-mobile" href = "{{section.settings.hero_video_link}}">
+                <span class = "filled-circle custom-icon-filled-circle"></span>
+                <span class = "stroke-circle custom-icon-stroke-circle"></span>
+                <span class = "triangle custom-icon-triangle"></span>
+              </a>
+        </div> 
+      </div>
+
+      <!-- Video -->
+      <div class = "video video--{{ section.id }} {{ section.settings.video_height }} {{video_margins}}
+      {% if section.settings.image == blank %} placeholder-bg {% endif %}"
+        data-video-id="{{ videoKey }}"
+        data-video-ratio="{{ section.settings.video_ratio }}"
+        >
+
+      <div class = "overlay {{ section.settings.hero_overlay }}" style="background-color:{{ section.settings.hero_overlay_color }}"></div>    
+    </div>
+    </div>
+</div>
+
+
+{% schema %}
+{
+  "name": "Background video",
+  "class": "featured-video-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Headings"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text position",
+      "default": "text-inside",
+      "options": [
+        {
+          "value": "text-inside",
+          "label": "Inside"
+        },
+        {
+          "value": "text-outside",
+          "label": "Outside"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "text_alignment",
+      "label": "Center text horizontally",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "text-light",
+      "options": [
+        {
+          "value": "text-light",
+          "label": "Light"
+        },
+        {
+          "value": "text-dark",
+          "label": "Dark"
+        }
+      ]
+    },
+    {
+      "type": "textarea",
+      "id": "main_heading",
+      "label": "Heading",
+      "default": "Welcome to Palo Alto"
+    },
+    {
+      "type": "textarea",
+      "id": "main_subheading",
+      "label": "Subheading",
+      "default": "Porta commodo sem dapibus sollicitudin"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "btn_text",
+      "label": "Button text",
+      "default": "Welcome"
+    },
+    {
+      "type": "url",
+      "id": "btn_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Video"
+    },
+    {
+      "type": "video_url",
+      "id": "hero_video_link",
+      "label": "URL",
+      "default": "https://www.youtube.com/watch?v=_9VUPq3SxOc",
+      "accept": [
+        "youtube"
+      ],
+      "info": "YouTube links only"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_video_margins",
+      "label": "Show video margins",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "video_height",
+      "label": "Video height",
+      "default": "one-hundred-height-hero",
+      "options": [
+        {
+          "value": "one-hundred-height-hero",
+          "label": "Full screen height"
+        },
+        {
+          "value": "seventy-five-height-hero ",
+          "label": "Tall"
+        },
+        {
+          "value": "sixty-six-height-hero",
+          "label": "Medium"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "video_ratio",
+      "label": "Video ratio",
+      "default": "16/9",
+      "info":"This property is used to remove black space at the top and bottom of the video.",
+      "options": [
+        {
+          "value": "4/3",
+          "label": "4/3"
+        },
+        {
+          "value": "16/9",
+          "label": "16/9"
+        },
+        {
+          "value": "21/9",
+          "label": "21/9"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "hero_overlay",
+      "label": "Overlay opacity",
+      "options": [
+        {
+          "value": "overlay-0",
+          "label": "0%"
+        },
+        {
+          "value": "overlay-5",
+          "label": "5%"
+        },
+        {
+          "value": "overlay-10",
+          "label": "10%"
+        },
+        {
+          "value": "overlay-15",
+          "label": "15%"
+        },
+        {
+          "value": "overlay-20",
+          "label": "20%"
+        },
+        {
+          "value": "overlay-25",
+          "label": "25%"
+        },
+        {
+          "value": "overlay-30",
+          "label": "30%"
+        },
+        {
+          "value": "overlay-35",
+          "label": "35%"
+        },
+        {
+          "value": "overlay-40",
+          "label": "40%"
+        },
+        {
+          "value": "overlay-45",
+          "label": "45%"
+        },
+        {
+          "value": "overlay-50",
+          "label": "50%"
+        },
+        {
+          "value": "overlay-55",
+          "label": "55%"
+        },
+        {
+          "value": "overlay-60",
+          "label": "60%"
+        },
+        {
+          "value": "overlay-65",
+          "label": "65%"
+        },
+        {
+          "value": "overlay-70",
+          "label": "70%"
+        },
+        {
+          "value": "overlay-75",
+          "label": "75%"
+        },
+        {
+          "value": "overlay-80",
+          "label": "80%"
+        },
+        {
+          "value": "overlay-85",
+          "label": "85%"
+        },
+        {
+          "value": "overlay-90",
+          "label": "90%"
+        }     
+      ],
+      "default":"overlay-30"
+    },
+    {
+      "type": "color",
+      "id": "hero_overlay_color",
+      "label": "Overlay color",
+      "default": "#000"
+    }, 
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Poster image",
+      "info": "Displays on desktop while the video loads and on mobile devices before the user clicks the play button."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Background video",
+      "category": "video"
+    }
+  ]
+}
+{% endschema %}
